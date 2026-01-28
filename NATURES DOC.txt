@@ -1,0 +1,245 @@
+Perfect! I’ve updated your **merged prompt** to include all **client-testable, fully functional instructions**.
+
+Here’s the **final:
+
+---
+
+# **NATURE Society Website Development – Complete & Client-Testable Specification**
+
+## **Project Overview**
+
+Develop a fully responsive, professional, and secure web application for **NATURE Society** – *National Awareness Training And Research For Urban-Rural Environment* (Bagbera, Jamshedpur, Jharkhand | Registration No. 248).
+
+The website should serve as a **transparent platform** for public information, project tracking, member engagement, governance, and donations, while complying with society bylaws. It must support **dynamic role management** and collaboration with external institutions.
+
+**Important Instruction:**
+
+> **Do not alter or redo any module, feature, or task that has already been completed and is functioning correctly.** Only continue with tasks that are **necessary to fully implement missing functionalities, make the site testable, and meet client requirements**.
+
+---
+
+## **1. Public Information & Transparency**
+
+**Features (to implement or complete if missing):**
+
+* About NATURE: Vision, Mission, Values, Journey (Timeline), Achievements
+* Media & Announcements: Photos, Videos, Press Coverage, Government/Public Ads, Public Notices
+* Projects & Programs:
+
+  * Status: Ongoing, Pending/On-hold, Completed, Future/Planned
+  * Forecasting: Budget, Timeline, Impact
+  * Beneficiary & Volunteer Assignment with **progress tracking per volunteer/project**
+* Community Participation:
+
+  * Public Suggestions (**anonymous & logged-in submissions**)
+  * Feedback, Surveys, Complaints/Grievance Handling
+
+**Additional Client-Testable Requirements:**
+
+* All forms must have **client-side and server-side validation**
+* Search, sort, and filter for projects and public suggestions
+* Notifications for admins and volunteers (email/in-app)
+* Real-time updates on project and volunteer progress dashboards
+
+**Implementation Roadmap:**
+
+* Ensure any existing project or suggestion module remains intact if completed
+* Continue with features required for full project lifecycle, volunteer assignment, forecasting, and public interaction
+
+---
+
+## **2. Members & Volunteers**
+
+**Features:**
+
+* Membership Management: Application, Approval, Status Tracking
+* Volunteer Management: Profiles, Skills, Hours Tracking, Recruitment, Careers (Jobs, Internships, Fellowships)
+* Resume Management: Upload, download, track resumes
+* Volunteer progress tracking across projects
+
+**Client-Testable Requirements:**
+
+* Validations for all input forms
+* Search/sort/filter functionality for members and volunteers
+* Notifications for approvals and assignments
+
+**Implementation Roadmap:**
+
+* Do not alter modules already implemented and working correctly
+* Continue with missing features like resume management, progress tracking, and notification system
+
+---
+
+## **3. Partners, Clients & Collaborations**
+
+**Features:**
+
+* Partner Management: Government Departments, CSR Partners, NGOs, Institutions
+* Project/Event Collaboration:
+
+  * Assign students/participants to projects or events
+  * Track participation, performance, and feedback
+  * **Strict access control:** External orgs only see assigned projects/events
+
+**Client-Testable Requirements:**
+
+* Validations for participant assignment forms
+* Notifications for external organizations and participants
+* Reports for participation and event completion
+
+**Implementation Roadmap:**
+
+* Existing external organization portal and modules should remain untouched if functional
+* Continue with strict access controls, notification system, and reporting
+
+---
+
+## **4. Donations & Finance**
+
+**Features:**
+
+* Online Donations & Receipts
+* Donor Records & Fund Utilization Summaries
+* Financial Transparency & Control:
+
+  * Multi-approval workflow (No single-person authority)
+  * Audit trails for all financial actions
+
+**Client-Testable Requirements:**
+
+* Validations for donation forms
+* Payment gateway integration in test mode
+* Search/filter for donors and donations
+* Real-time dashboard updates for financial summaries
+
+**Implementation Roadmap:**
+
+* Preserve any working donation or finance modules
+* Continue with multi-approval, audit logs, real-time updates, and test payment integration
+
+---
+
+## **5. Governance & Documentation**
+
+**Features:**
+
+* Governance: General Body, Managing Committee, Office Bearers, Sub-Committees, Auditor (temporary read-only)
+* Documentation & Compliance: Registration Docs, Bylaws, AGM/GBM Minutes, Policies, Codes of Conduct, Certificates & Recognitions
+* Role-Based Access & Version Control:
+
+  * Authorization & Signatory Registry
+  * Immutable document versioning with history/retrieval
+  * Election & Tenure Records
+* Audit logging: Track all actions by members, volunteers, admins, and external organizations
+
+**Client-Testable Requirements:**
+
+* Form validation and secure document upload
+* Search/filter for documents
+* Notifications for document approvals or changes
+
+**Implementation Roadmap:**
+
+* Existing governance and document modules remain unchanged if fully functional
+* Continue with versioning, audit logging, and notifications
+
+---
+
+## **6. Dynamic Role Management**
+
+**Features:**
+
+* Add, edit, update, delete roles dynamically
+* Module-specific permissions & hierarchical verticals
+* Changes automatically reflect in access control
+* Scalable for future departments, teams, or roles
+
+**Implementation Roadmap:**
+
+* Preserve completed roles and permissions
+* Implement any missing role features, especially module-specific restrictions
+
+---
+
+## **7. External Organizations Dashboard**
+
+**Features:**
+
+* Sign-up/Login Portal & Profile Management
+* Student/Participant Management: upload, assign projects/events, track performance/feedback
+* Event Management: Training sessions, placement drives
+* **Restricted access:** Only assigned projects/events
+
+**Client-Testable Requirements:**
+
+* Form validations and error handling
+* Search/filter for participants and events
+* Notifications for assignments, approvals, and events
+
+**Implementation Roadmap:**
+
+* Existing external dashboard modules remain intact if working
+* Continue with missing functionality to make it fully functional for client testing
+
+---
+
+## **8. Technical & Design Requirements**
+
+* Fully responsive: Desktop, Tablet, Mobile
+* Clean, modern, professional UI/UX
+* High security & data privacy
+* CMS-friendly for content updates
+* Integrated galleries, forms, feedback, donation systems
+* Search & filter for projects, members, documents
+* Audit-ready financial & governance modules
+* Scalable for future modules
+* Performance optimization and cross-browser testing
+* Maintain modular code and existing landing page design
+
+---
+
+## **9. Deliverables**
+
+* Fully responsive web application
+* **Admin Dashboard:** Content, members, projects, finance, governance, dynamic role management, audit logs
+* **External Organization Dashboard:** Student & event management
+* Documentation & user guide for society and external organization admins
+* **Stepwise Implementation Roadmap:**
+
+  1. Admin Dashboard + Projects Module
+  2. Members & Volunteers Module
+  3. Donations & Finance Module
+  4. External Organizations Dashboard
+  5. Client-ready testing (staging site, test accounts, sample data, notifications, validations)
+
+**Client-Testable Requirements:**
+
+* Preloaded sample data and test accounts for admin, volunteers, members, external orgs, donors
+* Fully functional dashboards, forms, notifications, and reports
+* Staging site accessible for client review and testing
+* Feedback / bug reporting enabled
+
+---
+
+✅ **Key Instruction for the Agent / Dev Team:**
+
+> **Do not modify or redo any task or module that is already complete and functional. Only continue with the remaining tasks necessary to make the website fully functional, testable, and ready for client review.**
+
+---
+
+This version now ensures:
+
+* Everything needed for a **fully functional, testable website** is included
+* Clear distinction between **completed modules** and **tasks left to implement**
+* Explicit instructions for **client testing, staging, and validation**
+
+---
+
+If you want, I can now **also create a visual sitemap + module flow diagram** for this final prompt, showing:
+
+* Dashboards, modules, roles, and access hierarchy
+* Completed vs remaining tasks
+
+This will make it **very easy for the agent or dev team to implement and track progress**.
+
+Do you want me to do that next?

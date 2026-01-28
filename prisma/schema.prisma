@@ -1,0 +1,408 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// User & Auth
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  password      String?
+  image         String?
+  roleId        String?
+  role          Role?     @relation(fields: [roleId], references: [id])
+  expiresAt     DateTime? // For temporary role access
+  memberDetails Member?
+  volunteerDetails Volunteer?
+  institutionProfile InstitutionProfile?
+  auditLogs     AuditLog[]
+  internship    InternshipApplication[]
+  membershipApplications MembershipApplication[]
+  volunteerApplications  VolunteerApplication[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Role {
+  id              String       @id @default(cuid())
+  name            String       @unique // e.g., "Admin", "President", "Member", "ExternalAdmin"
+  accessStartDate DateTime?    // Optional: Role is only valid after this date
+  accessEndDate   DateTime?    // Optional: Role expires after this date
+  permissions     Permission[]
+  users           User[]
+}
+
+model Permission {
+  id          String @id @default(cuid())
+  module      String // e.g., "Finance", "Projects"
+  action      String // e.g., "read", "write", "delete"
+  roles       Role[]
+}
+
+// Membership
+model Member {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  membershipType String
+  status         String
+
+  expiryDate     DateTime?
+  address        String?
+  phone          String?
+}
+
+model Volunteer {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  skills         String?
+  hoursLogged    Float    @default(0)
+  assignments    ProjectAssignment[]
+}
+
+model InstitutionProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  organizationName String
+  type          String   // "Company", "College", "Government", "NGO"
+  address       String?
+  website       String?
+  contactPerson String
+  contactPhone  String?
+  status        String   @default("Pending") // Pending, Approved, Rejected
+  createdAt     DateTime @default(now())
+  
+  interns       InternshipApplication[]
+}
+
+model InternshipDomain {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  isActive    Boolean  @default(true)
+  applications InternshipApplication[]
+}
+
+model InternshipApplication {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  institution  String
+  course       String?
+  duration     String?
+  
+  domainId     String?
+  domain       InternshipDomain? @relation(fields: [domainId], references: [id])
+  
+  letterUrl    String?  // Path to the uploaded internship letter
+
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+
+  applicantType String?  // Student, Partner, Volunteer, etc.
+
+  institutionId String?
+  institutionRef InstitutionProfile? @relation(fields: [institutionId], references: [id])
+  
+  batch        String?  // e.g. "Batch 2024", "CS Dept", "Winter Cohort"
+  actualDurationDays Int? // Actual duration completed in days
+
+  startDate    DateTime?
+  endDate      DateTime?
+  completedAt  DateTime? // When the user marks it as done
+  
+  createdAt    DateTime @default(now())
+  status       String   @default("Pending") // Pending, Reviewed, Interview, Accepted, Ongoing, Completed, Incomplete, Dropped
+
+  attendances  InternshipAttendance[]
+  assignments  InternshipAssignment[]
+  messages     ApplicationMessage[]
+}
+
+model InternshipAttendance {
+  id            String                @id @default(cuid())
+  applicationId String
+  application   InternshipApplication @relation(fields: [applicationId], references: [id])
+  date          DateTime
+  status        String                // Present, Absent, Leave, Holiday
+  notes         String?
+}
+
+model InternshipAssignment {
+  id            String                @id @default(cuid())
+  applicationId String
+  application   InternshipApplication @relation(fields: [applicationId], references: [id])
+  title         String
+  description   String
+  issuedDate    DateTime              @default(now())
+  dueDate       DateTime?
+  status        String                @default("Assigned") // Assigned, Submitted, Reviewed, Completed
+  submissionUrl String?
+  grade         String?
+}
+
+model MembershipApplication {
+  id             String   @id @default(cuid())
+  name           String
+  email          String
+  membershipType String
+  createdAt      DateTime @default(now())
+  status         String   @default("Pending")
+  
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id])
+
+  messages       ApplicationMessage[]
+}
+
+model VolunteerApplication {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  skills    String?
+  createdAt DateTime @default(now())
+  status    String   @default("Pending")
+
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+
+  messages  ApplicationMessage[]
+}
+
+model ApplicationMessage {
+  id            String   @id @default(cuid())
+  message       String
+  createdAt     DateTime @default(now())
+  
+  // Sender info
+  senderId      String?  // If it's a registered user/admin
+  senderType    String   // "Admin" | "User" | "System"
+  senderName    String?  // For display purposes
+  
+  // Relations to applications
+  internshipAppId String?
+  internshipApp   InternshipApplication? @relation(fields: [internshipAppId], references: [id])
+  
+  membershipAppId String?
+  membershipApp   MembershipApplication? @relation(fields: [membershipAppId], references: [id])
+  
+  volunteerAppId  String?
+  volunteerApp    VolunteerApplication? @relation(fields: [volunteerAppId], references: [id])
+
+  // Reply hierarchy
+  parentId      String?
+  parent        ApplicationMessage? @relation("MessageReplies", fields: [parentId], references: [id])
+  replies       ApplicationMessage[] @relation("MessageReplies")
+
+  // Attachments
+  attachments   Attachment[]
+  
+  // Soft delete
+  isDeleted     Boolean @default(false)
+}
+
+model Attachment {
+  id          String   @id @default(cuid())
+  url         String
+  name        String
+  type        String
+  size        Int?
+  createdAt   DateTime @default(now())
+  
+  messageId   String
+  message     ApplicationMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String?
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+  status    String   @default("New")
+}
+
+// Projects
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  status      String   // "Ongoing", "Completed", "Future", "On-hold"
+  startDate   DateTime?
+  endDate     DateTime?
+  budget      Float?
+  location    String?
+  beneficiaries Int?
+  assignments ProjectAssignment[]
+  images      ProjectImage[]
+}
+
+model ProjectAssignment {
+  id          String    @id @default(cuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id])
+  volunteerId String
+  volunteer   Volunteer @relation(fields: [volunteerId], references: [id])
+  role        String?
+  hours       Float?
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  url       String
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+}
+
+// Finance & Donations
+model Donation {
+  id          String   @id @default(cuid())
+  amount      Float
+  donorName   String
+  donorEmail  String?
+  date        DateTime @default(now())
+  receiptNo   String   @unique
+  purpose     String?
+  isAnonymous Boolean  @default(false)
+  mode        String   @default("Public") // "Public" | "Admin" | "Gateway"
+  status      String   @default("Recorded") // "Recorded", "Pending", "Received", "Failed", "Refunded"
+  reference   String?
+}
+
+// External Organizations
+model ExternalOrg {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // "School", "College", "NGO"
+  contactPerson String
+  email       String   @unique
+  phone       String?
+  students    Student[]
+  events      Event[]
+}
+
+model Student {
+  id            String      @id @default(cuid())
+  name          String
+  orgId         String
+  organization  ExternalOrg @relation(fields: [orgId], references: [id])
+  course        String?
+  year          String?
+  participations EventParticipation[]
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime
+  orgId       String?
+  organization ExternalOrg? @relation(fields: [orgId], references: [id])
+  participants EventParticipation[]
+}
+
+model EventParticipation {
+  id        String  @id @default(cuid())
+  eventId   String
+  event     Event   @relation(fields: [eventId], references: [id])
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+  feedback  String?
+}
+
+// Theming
+model PageBackground {
+  id              String             @id @default(cuid())
+  pageKey         String             @unique // e.g. "home", "about", "projects"
+  mode            String             // "solid" | "gradient" | "image" | "mixed" | "mesh" | "particles" | "waves" | "animated"
+  solidColor      String?            // hsl or hex
+  gradientFrom    String?
+  gradientTo      String?
+  overlayColor    String?            // rgba or hsl
+  overlayOpacity  Float?             // 0-1
+  
+  // Animation & Shuffle
+  rotationEnabled Boolean            @default(false) // Used for image slideshow OR gradient rotation
+  rotationInterval Int?              // seconds
+  
+  colorShuffle    Boolean            @default(false) // Randomly change colors
+  colorShuffleInterval Int?          @default(5000)  // Milliseconds
+  colorIntensity  Float?             @default(1.0)   // 0-2 (1 is normal)
+  colorOpacity    Float?             @default(1.0)   // 0-1
+  imageShuffle    Boolean            @default(false) // Randomly pick image from library
+  enableModeShuffle Boolean          @default(false) // Randomly shuffle between background modes
+  
+  customColors    String?            // JSON array of color strings or comma-separated values
+
+  images          BackgroundImage[]
+  
+  uiTheme         String?            @default("nature")
+  
+  // New UI Effects
+  videoUrl        String?            // URL for video background
+  videoFallbackImage String?         // Fallback image for mobile/error
+  enableParallax  Boolean            @default(true)
+  enableGlassmorphism Boolean        @default(true)
+  enableNeon      Boolean            @default(false)
+  enableAnimations Boolean           @default(true)
+  animationIntensity String          @default("medium") // low, medium, high
+  disableMobileEffects Boolean       @default(true)
+  reduceMotion    Boolean            @default(false)
+
+  // Bubble Animation Settings
+  bubbleDensity   String?            @default("medium") // low, medium, high
+  bubbleSpeed     String?            @default("normal") // slow, normal, fast
+  bubbleColorMode String?            @default("transparent") // transparent, blue, multicolor
+
+  // Wave Animation Settings
+  waveStyle       String?            @default("liquid") // liquid, ribbon, ocean
+  waveColorPreset String?            @default("ocean") // ocean, neon, pastel, custom
+  waveSpeed       String?            @default("normal") // slow, normal, fast
+}
+
+model BackgroundImage {
+  id               String         @id @default(cuid())
+  url              String
+  alt              String?
+  order            Int            @default(0)
+  pageBackgroundId String
+  pageBackground   PageBackground @relation(fields: [pageBackgroundId], references: [id])
+}
+
+// Library for reusable assets
+model LibraryImage {
+  id        String   @id @default(cuid())
+  url       String   @unique
+  name      String?
+  category  String?  // e.g., "Nature", "Abstract", "Texture"
+  createdAt    DateTime @default(now())
+}
+
+model PageContent {
+  id        String   @id @default(cuid())
+  slug      String   @unique // e.g., "awareness", "training", "research"
+  title     String
+  content   String   // Stores HTML or Markdown
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  route     String
+  method    String
+  status    Int
+  ip        String?
+  details   String?
+}

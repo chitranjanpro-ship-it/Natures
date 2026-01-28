@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes natures-gradient-shift {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.bg-animated-gradient {
+	background-size: 200% 200%;
+	animation: natures-gradient-shift 20s ease-in-out infinite;
+}
+
+/* Aurora Blobs - Can be reused or hidden based on theme */
+.aurora-blob {
+	position: absolute;
+	border-radius: 9999px;
+	filter: blur(40px);
+	opacity: 0.55;
+	mix-blend-mode: screen;
+}
+
+.aurora-blob-1 {
+	width: 45vw;
+	height: 45vw;
+	background: radial-gradient(circle at 30% 30%, hsl(160 80% 60%), transparent 60%);
+	animation: aurora-move-1 30s ease-in-out infinite alternate;
+}
+
+.aurora-blob-2 {
+	width: 55vw;
+	height: 55vw;
+	background: radial-gradient(circle at 70% 20%, hsl(220 90% 65%), transparent 65%);
+	animation: aurora-move-2 38s ease-in-out infinite alternate;
+}
+
+.aurora-blob-3 {
+	width: 60vw;
+	height: 60vw;
+	background: radial-gradient(circle at 40% 80%, hsl(280 80% 70%), transparent 60%);
+	animation: aurora-move-3 45s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-move-1 {
+	0% { transform: translate3d(-10%, 0%, 0) scale(1); }
+	100% { transform: translate3d(10%, -10%, 0) scale(1.1); }
+}
+
+@keyframes aurora-move-2 {
+	0% { transform: translate3d(15%, -10%, 0) scale(1); }
+	100% { transform: translate3d(-5%, 15%, 0) scale(1.05); }
+}
+
+@keyframes aurora-move-3 {
+	0% { transform: translate3d(-15%, 10%, 0) scale(1); }
+	100% { transform: translate3d(5%, -5%, 0) scale(1.15); }
+}
+
+@layer base {
+  :root {
+    /* Default / Nature Mode Fallback */
+    --background: 160 20% 10%;
+    --foreground: 0 0% 98%;
+    --card: 160 20% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 160 20% 12%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 142 73% 35%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 160 20% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 160 12% 18%;
+    --muted-foreground: 160 15% 70%;
+    --accent: 142 30% 25%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 70% 35%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 160 12% 20%;
+    --input: 160 12% 20%;
+    --ring: 142 73% 35%;
+    --radius: 0.5rem;
+  }
+
+  /* MODE 1: Obsidian Glass (Dark Deep Blue) */
+  [data-theme="glassmorphism"] {
+    --background: 230 35% 7%; /* Deep Void Blue */
+    --foreground: 210 40% 98%; /* Ice White */
+    --card: 230 35% 10%; /* Dark Glass */
+    --card-foreground: 210 40% 98%;
+    --popover: 230 35% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 190 100% 50%; /* Neon Ice Blue */
+    --primary-foreground: 230 35% 7%;
+    --secondary: 230 30% 20%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 230 30% 20%;
+    --muted-foreground: 230 20% 60%;
+    --accent: 190 100% 50%;
+    --accent-foreground: 230 35% 7%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 230 30% 20%;
+    --input: 230 30% 20%;
+    --ring: 190 100% 50%;
+    --radius: 1.5rem;
+  }
+
+  /* MODE 2: Ethereal (Mystical) */
+  [data-theme="neo-brutalism"] {
+    --background: 270 40% 10%; /* Deep Void */
+    --foreground: 280 40% 92%; /* Soft Lilac (Not White) */
+    --card: 270 40% 13%;
+    --card-foreground: 280 40% 92%;
+    --popover: 270 40% 13%;
+    --popover-foreground: 280 40% 92%;
+    --primary: 280 80% 70%; /* Neon Purple */
+    --primary-foreground: 270 40% 10%;
+    --secondary: 190 60% 50%;
+    --secondary-foreground: 270 40% 10%;
+    --muted: 270 30% 20%;
+    --muted-foreground: 270 20% 70%;
+    --accent: 320 60% 60%;
+    --accent-foreground: 270 40% 10%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 280 40% 92%;
+    --border: 270 30% 25%;
+    --input: 270 30% 20%;
+    --ring: 280 80% 70%;
+    --radius: 1rem;
+  }
+
+  /* MODE 3: Cinematic Dark Mode */
+  [data-theme="cinematic"] {
+    --background: 220 20% 8%; /* Near black */
+    --foreground: 210 20% 90%;
+    --card: 220 20% 12%;
+    --card-foreground: 210 20% 90%;
+    --popover: 220 20% 12%;
+    --popover-foreground: 210 20% 90%;
+    --primary: 190 80% 50%; /* Cyan/Teal */
+    --primary-foreground: 220 20% 8%;
+    --secondary: 260 50% 20%; /* Deep Violet */
+    --secondary-foreground: 210 20% 90%;
+    --muted: 220 20% 16%;
+    --muted-foreground: 210 10% 60%;
+    --accent: 260 50% 40%;
+    --accent-foreground: 210 20% 90%;
+    --destructive: 0 60% 40%;
+    --destructive-foreground: 210 20% 90%;
+    --border: 220 20% 18%;
+    --input: 220 20% 12%;
+    --ring: 190 80% 50%;
+    --radius: 0.75rem;
+  }
+
+  /* MODE 4: Nature (Organic) */
+  [data-theme="nature"] {
+    --background: 150 25% 8%; /* Deep Forest */
+    --foreground: 120 20% 92%; /* Pale Moss (Not White) */
+    --card: 150 25% 10%;
+    --card-foreground: 120 20% 92%;
+    --popover: 150 25% 10%;
+    --popover-foreground: 120 20% 92%;
+    --primary: 142 60% 45%; /* Leaf Green */
+    --primary-foreground: 120 20% 92%;
+    --secondary: 150 20% 20%;
+    --secondary-foreground: 120 20% 92%;
+    --muted: 150 15% 18%;
+    --muted-foreground: 150 15% 70%;
+    --accent: 142 40% 30%;
+    --accent-foreground: 120 20% 92%;
+    --destructive: 0 70% 35%;
+    --destructive-foreground: 120 20% 92%;
+    --border: 150 15% 20%;
+    --input: 150 15% 20%;
+    --ring: 142 60% 45%;
+    --radius: 0.5rem;
+  }
+
+  /* MODE 5: Data-Driven Grid */
+  [data-theme="data-driven"] {
+    --background: 220 40% 10%; /* Dark Navy */
+    --foreground: 190 60% 90%; /* Pale Cyan (Not White) */
+    --card: 220 40% 12%;
+    --card-foreground: 190 60% 90%;
+    --popover: 220 40% 12%;
+    --popover-foreground: 190 60% 90%;
+    --primary: 190 90% 60%; /* Bright Cyan */
+    --primary-foreground: 220 40% 10%;
+    --secondary: 220 30% 25%;
+    --secondary-foreground: 190 60% 90%;
+    --muted: 220 30% 25%;
+    --muted-foreground: 220 20% 60%;
+    --accent: 35 90% 60%; /* Data warning yellow/orange */
+    --accent-foreground: 220 40% 10%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 190 60% 90%;
+    --border: 220 30% 30%;
+    --input: 220 30% 25%;
+    --ring: 190 90% 60%;
+    --radius: 0.25rem;
+  }
+
+  /* MODE 6: Luxury Minimal (Dark Gold Edition) */
+  [data-theme="luxury"] {
+    --background: 240 5% 8%; /* Deep Charcoal/Black */
+    --foreground: 45 30% 90%; /* Soft Gold/Cream Text */
+    --card: 240 5% 12%; /* Slightly lighter black */
+    --card-foreground: 45 30% 90%;
+    --popover: 240 5% 12%;
+    --popover-foreground: 45 30% 90%;
+    --primary: 45 90% 55%; /* Metallic Gold */
+    --primary-foreground: 240 5% 10%;
+    --secondary: 240 5% 18%;
+    --secondary-foreground: 45 30% 90%;
+    --muted: 240 5% 15%;
+    --muted-foreground: 45 20% 60%;
+    --accent: 45 90% 55%;
+    --accent-foreground: 240 5% 10%;
+    --destructive: 0 60% 40%;
+    --destructive-foreground: 45 30% 90%;
+    --border: 45 30% 20%; /* Subtle Gold Borders */
+    --input: 240 5% 15%;
+    --ring: 45 90% 55%;
+    --radius: 0.25rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    @apply bg-background text-foreground transition-colors duration-500 ease-in-out;
+  }
+  body {
+    @apply bg-transparent text-foreground;
+  }
+}
+
+/* Helper classes for specific theme features */
+[data-theme="glassmorphism"] .glass-card {
+  @apply bg-white/60 backdrop-blur-xl border border-slate-200 shadow-xl;
+}
+
+[data-theme="neo-brutalism"] .neo-card {
+  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-lg shadow-purple-500/10 hover:shadow-purple-500/20 transition-all duration-500;
+}
+
+/* Ethereal Global Fancy Effects */
+[data-theme="glassmorphism"] body {
+  background-image: radial-gradient(at 0% 0%, hsla(230, 40%, 15%, 1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(190, 80%, 20%, 1) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+[data-theme="neo-brutalism"] body {
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(280, 50%, 20%, 0.3) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(190, 50%, 20%, 0.3) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Luxury Global Fancy Effects */
+[data-theme="luxury"] body {
+  background-image: linear-gradient(to bottom right, hsl(240 5% 8%), hsl(240 5% 5%));
+}
+
+[data-theme="luxury"] .card, 
+[data-theme="luxury"] .bg-card {
+  @apply border border-primary/20 shadow-lg shadow-primary/5 backdrop-blur-sm;
+  background: linear-gradient(145deg, hsl(240 5% 12%), hsl(240 5% 10%));
+}
+
+[data-theme="luxury"] .btn-primary,
+[data-theme="luxury"] button.bg-primary {
+  @apply shadow-[0_0_15px_rgba(212,175,55,0.3)] hover:shadow-[0_0_25px_rgba(212,175,55,0.5)] transition-all duration-500;
+  background: linear-gradient(45deg, hsl(45 90% 45%), hsl(45 90% 65%));
+}
