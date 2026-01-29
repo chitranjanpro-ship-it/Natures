@@ -124,10 +124,10 @@ export default async function AdminDonationsPage({
            ...(q
              ? {
                  OR: [
-                   { donorName: { contains: q, mode: "insensitive" } },
-                   { donorEmail: { contains: q, mode: "insensitive" } },
-                   { purpose: { contains: q, mode: "insensitive" } },
-                   { receiptNo: { contains: q, mode: "insensitive" } },
+                   { donorName: { contains: q, mode: "insensitive" as const } },
+                   { donorEmail: { contains: q, mode: "insensitive" as const } },
+                   { purpose: { contains: q, mode: "insensitive" as const } },
+                   { receiptNo: { contains: q, mode: "insensitive" as const } },
                  ],
                }
              : {}),
