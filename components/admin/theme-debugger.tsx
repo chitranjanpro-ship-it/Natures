@@ -43,6 +43,7 @@ function getContrastRatio(fg: string, bg: string) {
 
 export function ThemeDebugger() {
     const { theme } = useTheme()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [metrics, setMetrics] = useState<any[]>([])
 
     useEffect(() => {

@@ -63,10 +63,7 @@ export default async function MembershipApplicationPage({ params }: { params: { 
                <label className="text-xs font-medium text-muted-foreground">Membership Type</label>
                <div className="font-medium">{app.membershipType}</div>
              </div>
-             <div>
-               <label className="text-xs font-medium text-muted-foreground">Address</label>
-               <div className="font-medium">{app.address}</div>
-             </div>
+             
            </div>
         </div>
         

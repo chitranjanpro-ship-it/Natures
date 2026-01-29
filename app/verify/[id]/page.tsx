@@ -1,6 +1,5 @@
 import { ThemedPage } from "../../(themed)/themed-page-wrapper"
 import prisma from "@/lib/db"
-import { notFound } from "next/navigation"
 
 export default async function VerifyCertificatePage({
   params,
@@ -19,7 +18,7 @@ export default async function VerifyCertificatePage({
         select: { title: true }
       },
       duration: true,
-      updatedAt: true
+      completedAt: true
     }
   })
 
@@ -90,7 +89,7 @@ export default async function VerifyCertificatePage({
               </div>
               <div>
                 <p className="text-muted-foreground">Completed On</p>
-                <p className="font-medium">{internship.updatedAt.toLocaleDateString()}</p>
+                <p className="font-medium">{internship.completedAt?.toLocaleDateString() || "N/A"}</p>
               </div>
             </div>
 

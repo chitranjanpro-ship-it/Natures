@@ -17,7 +17,7 @@ export async function GET() {
 
   if (!authorized) {
     await logAudit({
-      userId: (session?.user as { id?: string } | undefined)?.id ?? null,
+      userId: session?.user?.id ?? null,
       route: "/admin/applications/export",
       method: "GET",
       status: 401,

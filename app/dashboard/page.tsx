@@ -17,6 +17,7 @@ export default async function UserDashboard() {
     prisma.internshipApplication.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
+      include: { domain: true },
     }),
     prisma.membershipApplication.findFirst({
       where: { userId },
@@ -204,7 +205,7 @@ export default async function UserDashboard() {
                   {internships.map((app) => (
                     <div key={app.id} className="flex flex-col gap-1 p-3 rounded-lg bg-muted/30 border">
                       <div className="flex justify-between items-start">
-                         <div className="font-medium">{app.domain}</div>
+                         <div className="font-medium">{app.domain?.title || "Unknown Domain"}</div>
                          <div className={`text-xs px-2 py-0.5 rounded-full border ${
                             app.status === 'Completed' ? 'bg-green-100 text-green-700 border-green-200' :
                             app.status === 'Accepted' ? 'bg-blue-100 text-blue-700 border-blue-200' :

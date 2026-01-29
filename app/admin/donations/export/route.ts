@@ -17,7 +17,7 @@ export async function GET() {
 
   if (!authorized) {
     await logAudit({
-      userId: session?.user ? (session.user as { id?: string }).id ?? null : null,
+      userId: session?.user?.id ?? null,
       route: "/admin/donations/export",
       method: "GET",
       status: 401,
@@ -74,7 +74,7 @@ export async function GET() {
   const body = [header, ...lines].join("\n")
 
   await logAudit({
-    userId: session.user ? (session.user as { id?: string }).id ?? null : null,
+    userId: session?.user?.id ?? null,
     route: "/admin/donations/export",
     method: "GET",
     status: 200,

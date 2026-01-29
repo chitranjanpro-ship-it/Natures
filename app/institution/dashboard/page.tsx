@@ -76,7 +76,7 @@ export default async function InstitutionDashboard() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-muted-foreground">Manage your institution's interns and applications.</p>
+            <p className="text-muted-foreground">Manage your institution&apos;s interns and applications.</p>
           </div>
           {profile.status === 'Approved' ? (
             <Link 
@@ -133,7 +133,7 @@ export default async function InstitutionDashboard() {
           
           {interns.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
-              No candidates enrolled yet. Click "Enrol Candidate" to start.
+              No candidates enrolled yet. Click &quot;Enrol Candidate&quot; to start.
             </div>
           ) : (
             <div className="overflow-x-auto">

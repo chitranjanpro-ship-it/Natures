@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { requireRole } from "@/lib/roles"
 import { logAudit } from "@/lib/audit"
 import { UiEffectsControls } from "@/components/admin/ui-effects-controls"
-import { getPageBackground } from "@/lib/backgrounds"
+import { getPageBackground, PageBackgroundConfig } from "@/lib/backgrounds"
 import { PageBackgroundForm } from "@/components/admin/page-background-form"
 
 async function updateBackground(formData: FormData) {
@@ -76,7 +76,7 @@ async function updateBackground(formData: FormData) {
       try {
           JSON.parse(customColorsRaw) // Validate
           customColors = customColorsRaw
-      } catch (e) {
+      } catch {
           customColors = null
       }
   }
@@ -194,7 +194,7 @@ export default async function BackgroundsAdminPage() {
   type BackgroundWithImages = {
     id: string
     pageKey: string
-    mode: string
+    mode: PageBackgroundConfig["mode"]
     solidColor: string | null
     gradientFrom: string | null
     gradientTo: string | null
@@ -209,6 +209,17 @@ export default async function BackgroundsAdminPage() {
     colorOpacity: number | null
     customColors: string | null
     images: { url: string; alt: string | null; order: number }[]
+    uiTheme: string | null
+    videoUrl: string | null
+    videoFallbackImage: string | null
+    enableParallax: boolean
+    enableGlassmorphism: boolean
+    enableNeon: boolean
+    enableAnimations: boolean
+    animationIntensity: PageBackgroundConfig["animationIntensity"]
+    disableMobileEffects: boolean
+    reduceMotion: boolean
+    enableModeShuffle: boolean
   }
 
   const backgrounds = (await prisma.pageBackground.findMany({
@@ -276,6 +287,7 @@ export default async function BackgroundsAdminPage() {
                     {bg.images.map((img) => (
                       <figure key={`${img.url}-${img.order}`} className="overflow-hidden rounded-md border group relative">
                         <div className="relative aspect-video bg-muted">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={img.url}
                             alt={img.alt ?? "Background image"}

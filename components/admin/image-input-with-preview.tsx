@@ -32,6 +32,7 @@ export function ImageInputWithPreview({ name, defaultValue = "", placeholder, la
         />
         {url && (
           <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded border bg-muted flex items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={url}
               className="h-full w-full object-cover"
@@ -49,7 +50,7 @@ export function ImageInputWithPreview({ name, defaultValue = "", placeholder, la
         )}
       </div>
       <p className="text-[10px] text-muted-foreground">
-        * Must be a direct image link (ends in .jpg, .png, .webp). Webpage URLs won't work.
+        * Must be a direct image link (ends in .jpg, .png, .webp). Webpage URLs won&apos;t work.
       </p>
       {altName && (
         <input

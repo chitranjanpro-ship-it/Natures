@@ -30,9 +30,7 @@ export default async function VolunteerApplicationPage({ params }: { params: { i
 
   // Authorization check
   if (app.userId && app.userId !== session.user.id) {
-     if (app.email !== session.user.email) {
-        return <div className="p-8 text-center text-red-500">Unauthorized access</div>
-     }
+    return <div className="p-8 text-center text-red-500">Unauthorized access</div>
   }
 
   return (

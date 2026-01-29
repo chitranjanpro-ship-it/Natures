@@ -3,7 +3,6 @@
 import { auth } from "@/auth"
 import prisma from "@/lib/db"
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 
 export async function completeInternship(formData: FormData) {
   const session = await auth()

@@ -59,7 +59,7 @@ export function SignupForm({ error: initialError, success: initialSuccess }: Sig
         router.push("/login?success=AccountCreated")
       }, 1500)
 
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred. Please try again.")
     } finally {
       setLoading(false)

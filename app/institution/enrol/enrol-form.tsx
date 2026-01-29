@@ -26,6 +26,20 @@ function SubmitButton({ text }: { text: string }) {
 export function EnrolForm({ domains }: { domains: Domain[] }) {
   const [mode, setMode] = useState<"single" | "bulk">("single")
 
+  async function handleSingleSubmit(formData: FormData) {
+    const res = await submitEnrollment(formData)
+    if (res?.error) {
+      alert(res.error)
+    }
+  }
+
+  async function handleBulkSubmit(formData: FormData) {
+    const res = await submitBulkEnrollment(formData)
+    if (res?.error) {
+      alert(res.error)
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex space-x-2 border-b">
@@ -58,7 +72,7 @@ export function EnrolForm({ domains }: { domains: Domain[] }) {
             <CardDescription>Add a single student to a specific batch/vertical.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form action={submitEnrollment} className="space-y-4">
+            <form action={handleSingleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Full Name</label>
@@ -118,7 +132,7 @@ export function EnrolForm({ domains }: { domains: Domain[] }) {
             <CardDescription>Upload multiple students at once. Format: Name, Email, Phone, Course, Duration</CardDescription>
           </CardHeader>
           <CardContent>
-            <form action={submitBulkEnrollment} className="space-y-4">
+            <form action={handleBulkSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Domain (for all)</label>

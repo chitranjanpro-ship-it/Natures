@@ -144,11 +144,9 @@ export default async function ActiveInternshipsPage() {
                     {intern.email} • {intern.phone} • {intern.institution}
                   </div>
                   {/* Internship Letter Link */}
-                  {/* @ts-ignore - letterUrl might not be typed yet if prisma client isn't fully regenerated in IDE */}
                   {intern.letterUrl && (
                     <div className="mt-1">
-                      <a 
-                        // @ts-ignore
+                      <a
                         href={intern.letterUrl} 
                         target="_blank" 
                         className="text-xs text-blue-600 hover:underline flex items-center gap-1"

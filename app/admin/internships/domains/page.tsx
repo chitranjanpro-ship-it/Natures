@@ -1,6 +1,5 @@
 
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 import prisma from "@/lib/db"
 import { requireRole } from "@/lib/roles"
 
@@ -38,24 +37,6 @@ async function toggleDomainStatus(formData: FormData) {
     data: { isActive: !isActive }
   })
   
-  revalidatePath("/admin/internships/domains")
-}
-
-async function updateDomain(formData: FormData) {
-  "use server"
-  await requireRole(["Admin", "SYSTEM_ADMIN", "SUPER_ADMIN", "SOCIETY_ADMIN"], "manage_internships")
-
-  const id = formData.get("id")?.toString()
-  const title = formData.get("title")?.toString().trim()
-  const description = formData.get("description")?.toString().trim()
-
-  if (!id || !title) return
-
-  await prisma.internshipDomain.update({
-    where: { id },
-    data: { title, description }
-  })
-
   revalidatePath("/admin/internships/domains")
 }
 

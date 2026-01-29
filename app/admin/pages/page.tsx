@@ -9,11 +9,6 @@ export default async function AdminPagesList() {
     orderBy: { slug: "asc" }
   })
 
-  // Ensure default pages exist in the list (even if not in DB yet)
-  const defaultPages = ["awareness", "training", "research"]
-  const existingSlugs = new Set(pages.map(p => p.slug))
-  const allPages = [...pages]
-  
   // We'll just list what's in DB. If empty, user can create? Or we seed them?
   // Let's seed them via a button or just show "Not Created" state if we were fancy.
   // Ideally, we should seed them. For now, let's just list existing and provide a "Create" button if strictly needed,

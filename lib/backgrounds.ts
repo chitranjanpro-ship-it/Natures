@@ -1,26 +1,26 @@
 import prisma from "./db"
 
 export type PageBackgroundConfig = {
-  mode: "solid" | "gradient" | "image" | "mixed" | "aurora" | "webgl" | "mesh" | "particles" | "waves" | "animated" | "none"
-  solidColor?: string
-  gradientFrom?: string
-  gradientTo?: string
-  overlayColor?: string
-  overlayOpacity?: number
+  mode: "solid" | "gradient" | "image" | "mixed" | "aurora" | "webgl" | "mesh" | "particles" | "waves" | "animated" | "video" | "none"
+  solidColor?: string | null
+  gradientFrom?: string | null
+  gradientTo?: string | null
+  overlayColor?: string | null
+  overlayOpacity?: number | null
   rotationEnabled: boolean
-  rotationInterval?: number
+  rotationInterval?: number | null
   colorShuffle: boolean
-  colorShuffleInterval: number // Milliseconds
-  colorIntensity: number // 0-2
-  colorOpacity: number // 0-1
+  colorShuffleInterval: number | null // Milliseconds
+  colorIntensity: number | null // 0-2
+  colorOpacity: number | null // 0-1
   imageShuffle: boolean
   enableModeShuffle: boolean
-  images: { url: string; alt?: string; order: number }[]
-  uiTheme?: string
+  images: { url: string; alt?: string | null; order: number }[]
+  uiTheme?: string | null
   
   // New UI Effects
-  videoUrl?: string
-  videoFallbackImage?: string
+  videoUrl?: string | null
+  videoFallbackImage?: string | null
   enableParallax: boolean
   enableGlassmorphism: boolean
   enableNeon: boolean
@@ -28,7 +28,7 @@ export type PageBackgroundConfig = {
   animationIntensity: "low" | "medium" | "high"
   disableMobileEffects: boolean
   reduceMotion: boolean
-  customColors?: string[]
+  customColors?: string[] | null
 }
 
 export async function getPageBackground(pageKey: string): Promise<PageBackgroundConfig | null> {

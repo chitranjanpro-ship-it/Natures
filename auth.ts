@@ -55,11 +55,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        // @ts-expect-error: augment token with role
         token.role = user.role
-        // @ts-expect-error: augment token with roleId
         token.roleId = user.roleId
-        // @ts-expect-error: augment token with institutionId
         token.institutionId = user.institutionId
       }
       return token
@@ -69,11 +66,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         if (token.sub) {
           session.user.id = token.sub
         }
-        // @ts-expect-error: expose role on session user
         session.user.role = token.role
-        // @ts-expect-error: expose roleId on session user
         session.user.roleId = token.roleId
-        // @ts-expect-error: expose institutionId on session user
         session.user.institutionId = token.institutionId
       }
       return session

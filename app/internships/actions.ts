@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/db"
 import { redirect } from "next/navigation"
-import { auth, signIn } from "@/auth"
+import { auth } from "@/auth"
 import { sendApplicationReceivedEmail } from "@/lib/email"
 import { writeFile, mkdir } from "fs/promises"
 import { join } from "path"

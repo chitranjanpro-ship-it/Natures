@@ -35,6 +35,17 @@ function SubmitButton({ text = "Submit Application" }: { text?: string }) {
 export function InternshipForm({ domains, success, isLoggedIn }: { domains: Domain[], success: boolean, isLoggedIn: boolean }) {
   const [applicantType, setApplicantType] = useState("Student")
 
+  async function handlePartnerRegistration(formData: FormData) {
+    const res = await registerInstitutionFromInternship(formData)
+    if (res?.error) {
+      alert(res.error)
+    }
+  }
+
+  async function handleInternshipSubmit(formData: FormData) {
+    await submitInternship(formData)
+  }
+
   if (success) {
     return (
       <div className="bg-card border rounded-lg p-6 shadow-sm h-fit sticky top-24">
@@ -72,7 +83,7 @@ export function InternshipForm({ domains, success, isLoggedIn }: { domains: Doma
 
       {applicantType === "Partner" ? (
         /* Partner Registration Form */
-        <form action={registerInstitutionFromInternship} className="space-y-4">
+        <form action={handlePartnerRegistration} className="space-y-4">
           <div className="space-y-4">
             <h3 className="font-semibold text-lg border-b pb-2">Organization Details</h3>
             
@@ -139,7 +150,7 @@ export function InternshipForm({ domains, success, isLoggedIn }: { domains: Doma
         </form>
       ) : (
         /* Student / Volunteer / Other Form */
-        <form action={submitInternship} className="grid gap-4">
+        <form action={handleInternshipSubmit} className="grid gap-4">
           <input type="hidden" name="applicantType" value={applicantType} />
           
           <div className="grid gap-2">
@@ -207,7 +218,7 @@ export function InternshipForm({ domains, success, isLoggedIn }: { domains: Doma
                 placeholder="For your dashboard login"
                 autoComplete="new-password"
               />
-              <p className="text-xs text-muted-foreground">We'll create an account so you can track your internship.</p>
+              <p className="text-xs text-muted-foreground">We&apos;ll create an account so you can track your internship.</p>
             </div>
           )}
 

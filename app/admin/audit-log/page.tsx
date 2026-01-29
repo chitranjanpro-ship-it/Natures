@@ -3,7 +3,7 @@ import { requireRole } from "@/lib/roles"
 
 type AuditLogRow = {
   id: string
-  createdAt: string
+  createdAt: Date
   route: string
   method: string
   status: number
@@ -16,15 +16,11 @@ type AuditLogRow = {
 export default async function AuditLogPage() {
   await requireRole(["Admin", "SYSTEM_ADMIN", "SUPER_ADMIN", "SOCIETY_ADMIN"], "view_audit_log")
 
-  const logs = (await (prisma as unknown as {
-    auditLog: {
-      findMany: (args: unknown) => Promise<unknown>
-    }
-  }).auditLog.findMany({
+  const logs = await prisma.auditLog.findMany({
     orderBy: { createdAt: "desc" },
     take: 200,
     include: { user: true },
-  })) as unknown as AuditLogRow[]
+  })
 
   return (
     <main className="container max-w-screen-xl py-10">

@@ -117,7 +117,7 @@ async function duplicateProject(formData: FormData) {
   if (!project) return
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id: _projectId, createdAt: _createdAt, updatedAt: _updatedAt, ...data } = project
+  const { id: _projectId, ...data } = project
 
   await prisma.project.create({
     data: {

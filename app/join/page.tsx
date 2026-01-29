@@ -3,7 +3,7 @@ import prisma from "@/lib/db"
 import { redirect } from "next/navigation"
 import { ThemedPage } from "../(themed)/themed-page-wrapper"
 import { auth } from "@/auth"
-import { sendApplicationReceivedEmail } from "@/lib/email"
+
 
 async function submitMembership(formData: FormData) {
   "use server"
@@ -49,37 +49,6 @@ async function submitVolunteer(formData: FormData) {
   redirect("/join?volunteer=1")
 }
 
-async function submitInternship(formData: FormData) {
-  "use server"
-
-  const session = await auth()
-  const name = formData.get("name")?.toString().trim()
-  const email = formData.get("email")?.toString().trim()
-  const phone = formData.get("phone")?.toString().trim() || null
-  const institution = formData.get("institution")?.toString().trim()
-  const course = formData.get("course")?.toString().trim() || null
-  const duration = formData.get("duration")?.toString().trim() || null
-
-  if (!name || !email || !institution) return
-
-  await prisma.internshipApplication.create({
-    data: {
-      name,
-      email,
-      phone,
-      institution,
-      course,
-      duration,
-      userId: session?.user?.id, // Link to user account if logged in
-    },
-  })
-
-  // Send confirmation email
-  await sendApplicationReceivedEmail(email, name, institution).catch(err => console.error("Email failed:", err))
-
-  redirect("/join?internship=1")
-}
-
 export default async function JoinPage({
   searchParams,
 }: {
@@ -87,7 +56,7 @@ export default async function JoinPage({
 }) {
   const membershipSuccess = searchParams?.membership === "1"
   const volunteerSuccess = searchParams?.volunteer === "1"
-  const internshipSuccess = searchParams?.internship === "1"
+  // const internshipSuccess = searchParams?.internship === "1"
 
   return (
     <ThemedPage pageKey="join">

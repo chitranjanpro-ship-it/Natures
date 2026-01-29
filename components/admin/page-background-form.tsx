@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch"
 import { ImageInputWithPreview } from "@/components/admin/image-input-with-preview"
 import { Sun, Volume2, Palette, Check, RefreshCw } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { PageBackgroundConfig } from "@/lib/backgrounds"
 
 const PRESET_COLORS = [
   { name: "Red", value: "0 100% 50%" },
@@ -32,7 +33,12 @@ const PRESET_COLORS = [
 ]
 
 type Props = {
-  background: PageBackgroundConfig & { id: string; customColors: string | null; images: { url: string; alt?: string; order: number }[] }
+  background: Omit<PageBackgroundConfig, "customColors"> & { 
+    id: string; 
+    pageKey: string;
+    customColors: string | null; 
+    images: { url: string; alt?: string | null; order: number }[] 
+  }
   updateAction: (formData: FormData) => Promise<void>
 }
 
@@ -68,7 +74,7 @@ export function PageBackgroundForm({ background: bg, updateAction }: Props) {
           <select
             name="mode"
             value={mode}
-            onChange={(e) => setMode(e.target.value)}
+            onChange={(e) => setMode(e.target.value as PageBackgroundConfig["mode"])}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <option value="none">None (Use Global Theme)</option>

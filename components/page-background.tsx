@@ -265,7 +265,7 @@ export function PageBackground({ config: initialConfig, pageKey }: Props) {
 
 	const animatedClass = (!effectiveConfig?.reduceMotion && effectiveConfig?.enableAnimations && (effectiveConfig?.mode === "gradient" || effectiveConfig?.mode === "aurora" || effectiveConfig?.mode === "animated")) ? "bg-animated-gradient" : ""
 
-	const activeSolidColor = shuffledColor || effectiveConfig?.solidColor
+	const activeSolidColor = shuffledColor || effectiveConfig?.solidColor || undefined
 
 	// OVERRIDE LOGIC:
 	// If a specific "Heavy" mode is selected (Video, Particles, etc.), we render it regardless of the theme.
@@ -283,7 +283,7 @@ export function PageBackground({ config: initialConfig, pageKey }: Props) {
 			style={combinedStyle}
 		>
 			{effectiveConfig?.mode === "video" && effectiveConfig.videoUrl && !shouldDisableHeavyEffects && (
-				<VideoPlayer url={effectiveConfig.videoUrl} poster={effectiveConfig.videoFallbackImage} />
+				<VideoPlayer url={effectiveConfig.videoUrl} poster={effectiveConfig.videoFallbackImage ?? undefined} />
 			)}
 
 			{effectiveConfig?.mode === "aurora" && (

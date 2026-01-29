@@ -1,64 +1,16 @@
-import prisma from "@/lib/db"
-import { redirect } from "next/navigation"
-import { hash } from "bcryptjs"
+"use client"
+
 import Link from "next/link"
-
-async function registerInstitution(formData: FormData) {
-  "use server"
-
-  const orgName = formData.get("orgName")?.toString().trim()
-  const orgType = formData.get("orgType")?.toString().trim()
-  const address = formData.get("address")?.toString().trim()
-  const website = formData.get("website")?.toString().trim()
-  
-  const contactName = formData.get("contactName")?.toString().trim()
-  const phone = formData.get("phone")?.toString().trim()
-  
-  const email = formData.get("email")?.toString().trim()
-  const password = formData.get("password")?.toString().trim()
-
-  if (!orgName || !contactName || !email || !password || !orgType) {
-    return { error: "Missing required fields" }
-  }
-
-  // Check existing user
-  const existingUser = await prisma.user.findUnique({
-    where: { email },
-  })
-
-  if (existingUser) {
-    return { error: "Email already registered" }
-  }
-
-  const hashedPassword = await hash(password, 10)
-
-  // Create User + Institution Profile
-  // We need to find or create the "Institution" role if we want to use roles, 
-  // but for now we rely on the existence of 'institutionProfile' to determine type.
-  
-  await prisma.user.create({
-    data: {
-      name: orgName, // User name is Org Name for simplicity
-      email,
-      password: hashedPassword,
-      institutionProfile: {
-        create: {
-          organizationName: orgName,
-          type: orgType,
-          contactPerson: contactName,
-          contactPhone: phone,
-          address,
-          website,
-          status: "Pending" // Needs admin approval? Or allow immediate access?
-        }
-      }
-    }
-  })
-
-  redirect("/login?registered=true")
-}
+import { registerInstitution } from "./actions"
 
 export default function InstitutionJoinPage() {
+  async function handleSubmit(formData: FormData) {
+    const res = await registerInstitution(formData)
+    if (res?.error) {
+      alert(res.error)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="border-b">
@@ -77,7 +29,7 @@ export default function InstitutionJoinPage() {
         </div>
 
         <div className="rounded-lg border bg-card p-6 shadow-sm">
-          <form action={registerInstitution} className="space-y-6">
+          <form action={handleSubmit} className="space-y-6">
             
             <div className="space-y-4">
               <h3 className="font-semibold text-lg border-b pb-2">Organization Details</h3>
