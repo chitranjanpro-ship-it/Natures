@@ -11,21 +11,18 @@ type AuditParams = {
 
 export async function logAudit(params: AuditParams): Promise<void> {
   try {
-    const args: unknown = {
+    await prisma.auditLog.create({
       data: {
-        userId: params.userId ?? null,
+        userId: params.userId || null,
         route: params.route,
         method: params.method,
         status: params.status,
-        ip: params.ip ?? null,
-        details: params.details ?? null,
+        ip: params.ip || null,
+        details: params.details || null,
       },
-    }
-
-    await (prisma as unknown as {
-      auditLog: { create: (args: unknown) => Promise<unknown> }
-    }).auditLog.create(args)
+    })
   } catch {
+    // Ignore audit log errors to prevent blocking main flow
     return
   }
 }

@@ -29,20 +29,6 @@ export async function GET() {
 
   const donations = await prisma.donation.findMany({ orderBy: { date: "desc" } })
 
-  const typed = donations as unknown as {
-    id: string
-    amount: number
-    donorName: string
-    donorEmail: string | null
-    purpose: string | null
-    date: Date
-    isAnonymous: boolean
-    receiptNo: string
-    mode: string
-    status: string
-    reference: string | null
-  }[]
-
   const header = [
     "Date",
     "ReceiptNo",
@@ -55,7 +41,7 @@ export async function GET() {
     "Reference",
   ].join(",")
 
-  const lines = typed.map((d) => {
+  const lines = donations.map((d) => {
     const cells = [
       d.date.toISOString(),
       d.receiptNo,

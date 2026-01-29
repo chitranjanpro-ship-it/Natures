@@ -1,18 +1,6 @@
 import prisma from "@/lib/db"
 import { requireRole } from "@/lib/roles"
 
-type AuditLogRow = {
-  id: string
-  createdAt: Date
-  route: string
-  method: string
-  status: number
-  ip: string | null
-  details: string | null
-  userId: string | null
-  user: { email: string | null; name: string | null } | null
-}
-
 export default async function AuditLogPage() {
   await requireRole(["Admin", "SYSTEM_ADMIN", "SUPER_ADMIN", "SOCIETY_ADMIN"], "view_audit_log")
 
@@ -47,7 +35,7 @@ export default async function AuditLogPage() {
                 </tr>
               </thead>
               <tbody>
-                {logs.map((log: AuditLogRow) => (
+                {logs.map((log) => (
                   <tr key={log.id} className="border-b border-border last:border-b-0">
                     <td className="px-2 py-2 align-top">
                       {new Date(log.createdAt).toLocaleString("en-IN")}
