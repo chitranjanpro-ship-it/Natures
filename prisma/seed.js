@@ -80,6 +80,30 @@ async function main() {
     })
   }
   console.log('Page content seeded.')
+
+  // Create Admin User
+  const adminEmail = "admin@nature.com"
+  const adminPassword = await hash("admin123", 10)
+  
+  const adminRole = await prisma.role.findUnique({
+    where: { name: "SUPER_ADMIN" }
+  })
+
+  if (adminRole) {
+    await prisma.user.upsert({
+      where: { email: adminEmail },
+      update: {
+        roleId: adminRole.id,
+      },
+      create: {
+        email: adminEmail,
+        name: "Super Admin",
+        password: adminPassword,
+        roleId: adminRole.id,
+      },
+    })
+    console.log(`Admin user seeded: ${adminEmail} / admin123`)
+  }
 }
 
 main()
