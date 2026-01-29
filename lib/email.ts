@@ -52,6 +52,23 @@ export async function sendEnrollmentConfirmation(
     return sendEmail({ to: studentEmail, subject, html })
 }
 
+export async function sendCredentialsEmail(
+    email: string,
+    name: string,
+    password: string
+) {
+    const subject = "Your Account Credentials - NATURE Society"
+    const html = `
+        <h1>Hello ${name},</h1>
+        <p>An account has been created for you at NATURE Society.</p>
+        <p><strong>Username:</strong> ${email}</p>
+        <p><strong>Password:</strong> ${password}</p>
+        <p>Please log in and change your password immediately.</p>
+        <p><a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/login">Login Here</a></p>
+    `
+    return sendEmail({ to: email, subject, html })
+}
+
 export async function sendApplicationReceivedEmail(
     email: string,
     name: string,

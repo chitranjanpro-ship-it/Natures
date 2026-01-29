@@ -4,6 +4,7 @@ import { auth } from "@/auth"
 import prisma from "@/lib/db"
 import { redirect } from "next/navigation"
 import { hash } from "bcryptjs"
+import { sendCredentialsEmail, sendEnrollmentConfirmation } from "@/lib/email"
 
 // Helper to generate a random password
 function generatePassword() {
@@ -70,8 +71,11 @@ export async function submitEnrollment(formData: FormData) {
     }
   })
 
-  // TODO: Send email with credentials if new user
-  console.log(`Enrolled ${email}. Password: ${userPassword}`)
+  // Send emails
+  if (userId && userPassword) {
+    await sendCredentialsEmail(email, name, userPassword)
+  }
+  await sendEnrollmentConfirmation(email, name, course || "Internship", user.institutionProfile.organizationName)
 
   redirect("/institution/dashboard?enrolled=1")
 }

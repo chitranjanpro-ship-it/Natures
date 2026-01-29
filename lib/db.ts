@@ -1,25 +1,15 @@
 import { PrismaClient } from '@prisma/client'
 
-type PageBackgroundDelegate = {
-  findUnique: (...args: unknown[]) => Promise<unknown>
-  findMany: (...args: unknown[]) => Promise<unknown[]>
-  update: (...args: unknown[]) => Promise<unknown>
+const prismaClientSingleton = () => {
+  return new PrismaClient()
 }
 
-type BackgroundImageDelegate = {
-  deleteMany: (...args: unknown[]) => Promise<unknown>
-  createMany: (...args: unknown[]) => Promise<unknown>
+declare global {
+  var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
 }
 
-type ExtendedPrismaClient = PrismaClient & {
-  pageBackground: PageBackgroundDelegate
-  backgroundImage: BackgroundImageDelegate
-}
-
-const globalForPrisma = globalThis as unknown as { prisma?: ExtendedPrismaClient }
-
-const prisma: ExtendedPrismaClient = globalForPrisma.prisma ?? (new PrismaClient() as ExtendedPrismaClient)
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
 
 export default prisma
+
+if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
