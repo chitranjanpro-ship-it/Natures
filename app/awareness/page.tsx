@@ -1,6 +1,5 @@
 import prisma from "@/lib/db"
 import { ThemedPage } from "../(themed)/themed-page-wrapper"
-import { notFound } from "next/navigation"
 
 export default async function AwarenessPage() {
   const page = await prisma.pageContent.findUnique({
