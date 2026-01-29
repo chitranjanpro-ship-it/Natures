@@ -25,6 +25,61 @@ async function main() {
     })
   }
   console.log('Roles seeded.')
+
+  const pageContents = [
+    {
+      slug: "awareness",
+      title: "Awareness Programs",
+      content: `
+        <div class="prose max-w-none">
+          <p>Our awareness programs focus on educating communities about environmental sustainability, hygiene, and social responsibility.</p>
+          <ul>
+            <li>Environmental Protection</li>
+            <li>Health & Hygiene Workshops</li>
+            <li>Community Engagement</li>
+          </ul>
+        </div>
+      `
+    },
+    {
+      slug: "training",
+      title: "Training & Development",
+      content: `
+        <div class="prose max-w-none">
+          <p>We provide skill development training for women, youth, and volunteers to empower them for a better future.</p>
+          <ul>
+            <li>Vocational Training</li>
+            <li>Skill Development Workshops</li>
+            <li>Volunteer Leadership Programs</li>
+          </ul>
+        </div>
+      `
+    },
+    {
+      slug: "research",
+      title: "Research & Innovation",
+      content: `
+        <div class="prose max-w-none">
+          <p>Our research initiatives aim to bridge the gap between urban and rural needs through evidence-based projects.</p>
+          <ul>
+            <li>Urban-Rural Studies</li>
+            <li>Environmental Impact Assessment</li>
+            <li>Social Sustainability Research</li>
+          </ul>
+        </div>
+      `
+    }
+  ]
+
+  console.log('Seeding page content...')
+  for (const page of pageContents) {
+    await prisma.pageContent.upsert({
+      where: { slug: page.slug },
+      update: {},
+      create: page,
+    })
+  }
+  console.log('Page content seeded.')
 }
 
 main()

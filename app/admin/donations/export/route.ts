@@ -13,11 +13,12 @@ function escapeCsvValue(value: string): string {
 
 export async function GET() {
   const session = await auth()
+  const userId = session?.user?.id ?? null
   const { authorized } = await checkRole(["Admin", "Finance", "TREASURER"], "manage_donations")
 
   if (!authorized) {
     await logAudit({
-      userId: session?.user?.id ?? null,
+      userId,
       route: "/admin/donations/export",
       method: "GET",
       status: 401,
